@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Csi3": {
+      "commandName": "Project",
+      "commandLineArgs": "test.cs"
+    }
+  }
+}
