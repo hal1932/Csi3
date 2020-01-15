@@ -34,7 +34,7 @@ namespace Csi3
 
             var options = new BuildOptions()
             {
-                EnableDebug = false,
+                EnableDebug = true,
             };
 
             var builder = new Builder(options);

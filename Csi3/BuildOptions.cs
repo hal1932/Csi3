@@ -10,8 +10,8 @@ namespace Csi3
         public bool EnableDebug { get; set; }
         public Encoding Encoding { get; set; } = Encoding.UTF8;
         public string WorkingDirectory { get; set; } = Environment.CurrentDirectory;
-        public IEnumerable<string> IncludePaths { get; set; } = Array.Empty<string>();
-        public IEnumerable<string> LibraryPaths { get; set; } = Array.Empty<string>();
+        public IEnumerable<string> LoadPaths { get; set; } = Array.Empty<string>();
+        public IEnumerable<string> ReferencePaths { get; set; } = Array.Empty<string>();
 
         internal SourceCodeKind GetKind()
             => SourceCodeKind.Regular;

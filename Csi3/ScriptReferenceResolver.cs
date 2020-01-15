@@ -11,19 +11,16 @@ namespace Csi3
     {
         public static ScriptReferenceResolver Default = new ScriptReferenceResolver();
 
-        public ScriptReferenceResolver WithSearchPaths(params string[] paths)
+        public ScriptReferenceResolver(IEnumerable<string> searchPaths = null)
         {
-            var resolver = new ScriptReferenceResolver();
-            resolver._searchPaths = _searchPaths;
-            return resolver;
+            _searchPaths = searchPaths?.ToImmutableArray() ?? ImmutableArray<string>.Empty;
         }
 
+        public ScriptReferenceResolver WithSearchPaths(params string[] paths)
+            => new ScriptReferenceResolver(searchPaths: paths);
+
         public ScriptReferenceResolver WithSearchPaths(IEnumerable<string> paths)
-        {
-            var resolver = new ScriptReferenceResolver();
-            resolver._searchPaths = _searchPaths;
-            return resolver;
-        }
+            => new ScriptReferenceResolver(searchPaths: paths);
 
         public bool Equals(ScriptReferenceResolver other)
         {

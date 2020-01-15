@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -17,6 +18,17 @@ namespace Csi3
     class ScriptAssemblyResolver : MetadataAssemblyResolver
     {
         public static ScriptAssemblyResolver Default { get; } = new ScriptAssemblyResolver();
+
+        public ScriptAssemblyResolver(IEnumerable<string> searchPaths = null)
+        {
+            _searchPaths = searchPaths?.ToImmutableArray() ?? ImmutableArray<string>.Empty;
+        }
+
+        public ScriptAssemblyResolver WithSearchPaths(params string[] paths)
+            => new ScriptAssemblyResolver(searchPaths: paths);
+
+        public ScriptAssemblyResolver WithSearchPaths(IEnumerable<string> paths)
+            => new ScriptAssemblyResolver(searchPaths: paths);
 
         public override Assembly Resolve(MetadataLoadContext context, AssemblyName assemblyName)
         {
@@ -42,6 +54,16 @@ namespace Csi3
                 return context.LoadFromAssemblyPath(dllPath);
             }
 
+            foreach (var searchPath in _searchPaths)
+            {
+                dllPath = Path.Combine(searchPath, name + ".dll");
+                if (File.Exists(dllPath))
+                {
+                    //Console.WriteLine($"  -> [Path] {dllPath}");
+                    return context.LoadFromAssemblyPath(dllPath);
+                }
+            }
+
             var resolver = new AssemblyDependencyResolver(Assembly.GetExecutingAssembly().Location);
             dllPath = resolver.ResolveAssemblyToPath(assemblyName);
             if (!string.IsNullOrEmpty(dllPath))
@@ -55,5 +77,6 @@ namespace Csi3
         }
 
         private Assembly _coreAssembly;
+        private ImmutableArray<string> _searchPaths = ImmutableArray<string>.Empty;
     }
 }

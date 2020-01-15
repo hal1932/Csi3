@@ -7,11 +7,15 @@
 
   <ItemGroup>
     <Compile Remove="test.cs" />
+    <Compile Remove="test1.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="test1.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="test.cs">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
