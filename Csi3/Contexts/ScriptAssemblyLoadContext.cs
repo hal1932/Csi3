@@ -4,11 +4,11 @@ using System.Reflection;
 using System.Runtime.Loader;
 using System.Text;
 
-namespace Csi3
+namespace Csi3.Contexts
 {
-    class ScriptLoadContext : AssemblyLoadContext
+    class ScriptAssemblyLoadContext : AssemblyLoadContext
     {
-        public ScriptLoadContext()
+        public ScriptAssemblyLoadContext()
             : base(isCollectible: true)
         { }
 

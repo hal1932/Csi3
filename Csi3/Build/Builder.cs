@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using Csi3.Build.Resolvers;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
 using Microsoft.CodeAnalysis.Scripting;
@@ -11,7 +12,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-namespace Csi3
+namespace Csi3.Build
 {
     public class Builder
     {

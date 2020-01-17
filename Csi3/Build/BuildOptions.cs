@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Csi3
+namespace Csi3.Build
 {
     public class BuildOptions
     {

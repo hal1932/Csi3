@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 
-namespace Csi3
+namespace Csi3.Build.Resolvers
 {
     class ScriptReferenceResolver : MetadataReferenceResolver, IEquatable<ScriptReferenceResolver>
     {

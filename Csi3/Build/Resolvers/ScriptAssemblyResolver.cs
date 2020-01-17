@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.Loader;
 using System.Text;
 
-namespace Csi3
+namespace Csi3.Build.Resolvers
 {
     static class StringExtensions
     {

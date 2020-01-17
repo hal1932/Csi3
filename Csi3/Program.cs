@@ -1,10 +1,12 @@
 ﻿using ConsoleAppFramework;
+using Csi3.Build;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Immutable;
 
 namespace Csi3
 {
