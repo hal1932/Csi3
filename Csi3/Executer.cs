@@ -1,6 +1,8 @@
-﻿using Csi3.Contexts;
+﻿using Csi3.Build;
+using Csi3.Contexts;
 using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Csi3
@@ -36,7 +38,7 @@ namespace Csi3
             }
         }
 
-        public async Task<ScriptExecutionContext> ExecuteAsync(params string[] args)
+        public async Task<ScriptExecutionContext> ExecuteAsync(string[] args)
             => await Task.Factory.StartNew(() =>
             {
                 using (_peStream)
@@ -57,5 +59,6 @@ namespace Csi3
         private bool _disposed;
         private Stream _peStream;
         private Stream _pdbStream;
+
     }
 }

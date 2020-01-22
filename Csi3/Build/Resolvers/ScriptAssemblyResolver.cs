@@ -71,7 +71,7 @@ namespace Csi3.Build.Resolvers
                 return context.LoadFromAssemblyPath(dllPath);
             }
 
-            Console.WriteLine($"[ERROR] assembly not found: {assemblyName.FullName}");
+            //Console.WriteLine($"[ERROR] assembly not found: {assemblyName.FullName}");
             return null;
         }
 

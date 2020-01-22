@@ -14,6 +14,6 @@ namespace Csi3.Contexts
             return null;
         }
 
-        private AssemblyDependencyResolver _resolver;
+        //private AssemblyDependencyResolver _resolver;
     }
 }

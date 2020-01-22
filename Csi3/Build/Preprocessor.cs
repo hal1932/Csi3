@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace Csi3.Build
 {
@@ -20,14 +21,24 @@ namespace Csi3.Build
             _encoding = encoding;
         }
 
-        public void Preprocess()
+        public void Preprocess(bool waitForUnlock = false)
         {
             SourceCode = new StringBuilder();
 
             var loads = new List<string>();
             var references = new List<string>();
 
-            using (var reader = new StreamReader(SourceCodePath, _encoding))
+            if (waitForUnlock)
+            {
+                var file = new FileInfo(SourceCodePath);
+                while (file.IsReadLocked())
+                {
+                    Thread.Sleep(50);
+                }
+            }
+
+            using (var stream = new FileStream(SourceCodePath, FileMode.Open, FileAccess.Read))
+            using (var reader = new StreamReader(stream, _encoding))
             {
                 while (!reader.EndOfStream)
                 {

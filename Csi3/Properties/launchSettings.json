@@ -2,7 +2,7 @@
   "profiles": {
     "Csi3": {
       "commandName": "Project",
-      "commandLineArgs": "test.cs"
+      "commandLineArgs": "program -d false -e utf-8 -i aaa,bbb -w true test.cs -- 1 2 3"
     }
   }
 }
