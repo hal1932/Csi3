@@ -1,5 +1,6 @@
 ﻿using ConsoleAppFramework;
 using Csi3.Build;
+using Csi3.Contexts;
 using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -94,6 +95,8 @@ namespace Csi3
             {
                 using (var watcher = new FileWather())
                 {
+                    Task waitForUnloadTask = null;
+
                     while (!Context.CancellationToken.IsCancellationRequested)
                     {
                         watcher.Stop();
@@ -103,8 +106,9 @@ namespace Csi3
                         {
                             if (executer != null)
                             {
-                                var result = await executer.ExecuteAsync(args);
-                                result.WaitForExit();
+                                waitForUnloadTask?.Wait();
+                                var awaiter = await executer.ExecuteAsync(args);
+                                waitForUnloadTask = awaiter.WaitForUnloadAsync(Context.CancellationToken);
                             }
                         }
 
@@ -117,13 +121,15 @@ namespace Csi3
 
                         watcher.WaitForChanged(Context.CancellationToken);
                     }
+
+                    waitForUnloadTask?.Wait();
                 }
             }
             else
             {
                 var executer = await builder.BuildAsync(scriptPath);
-                var result = await executer.ExecuteAsync(args);
-                result.WaitForExit();
+                var awaiter = await executer.ExecuteAsync(args);
+                awaiter.WaitForUnload();
             }
 
             return 0;

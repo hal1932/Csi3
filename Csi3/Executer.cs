@@ -28,7 +28,7 @@ namespace Csi3
         {
             if (!_disposed)
             {
-                _peStream?.Dispose();
+                _peStream.Dispose();
                 _peStream = null;
 
                 _pdbStream?.Dispose();
@@ -38,21 +38,21 @@ namespace Csi3
             }
         }
 
-        public async Task<ScriptExecutionContext> ExecuteAsync(string[] args)
+        public async Task<AssemblyUnloadAwaiter> ExecuteAsync(string[] args)
             => await Task.Factory.StartNew(() =>
             {
-                using (_peStream)
-                using (_pdbStream)
-                {
-                    var loadContext = new ScriptAssemblyLoadContext();
-                    var assembly = loadContext.LoadFromStream(_peStream, _pdbStream);
+                var loadContext = new ScriptAssemblyLoadContext();
 
-                    assembly.EntryPoint.Invoke(null, new[] { args });
+                _peStream.Seek(0, SeekOrigin.Begin);
+                _pdbStream?.Seek(0, SeekOrigin.Begin);
 
-                    loadContext.Unload();
+                var assembly = loadContext.LoadFromStream(_peStream, _pdbStream);
 
-                    return new ScriptExecutionContext(new WeakReference(loadContext));
-                }
+                assembly.EntryPoint.Invoke(null, new[] { args });
+
+                loadContext.Unload();
+
+                return new AssemblyUnloadAwaiter(new WeakReference(loadContext));
             })
             .ConfigureAwait(false);
 
