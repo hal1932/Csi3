@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Loader;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -8,9 +9,9 @@ namespace Csi3.Contexts
     {
         public bool IsUnloaded => !_loadContextRef.IsAlive;
 
-        internal AssemblyUnloadAwaiter(WeakReference loadContextRef)
+        internal AssemblyUnloadAwaiter(AssemblyLoadContext loadContext)
         {
-            _loadContextRef = loadContextRef;
+            _loadContextRef = new WeakReference(loadContext);
         }
 
         public bool WaitForUnload()

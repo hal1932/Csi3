@@ -26,16 +26,16 @@ namespace Csi3
 
         private void Dispose(bool disposing)
         {
-            if (!_disposed)
-            {
-                _peStream.Dispose();
-                _peStream = null;
+            //if (!_disposed)
+            //{
+            //    _peStream.Dispose();
+            //    _peStream = null;
 
-                _pdbStream?.Dispose();
-                _pdbStream = null;
+            //    _pdbStream?.Dispose();
+            //    _pdbStream = null;
 
-                _disposed = true;
-            }
+            //    _disposed = true;
+            //}
         }
 
         public async Task<AssemblyUnloadAwaiter> ExecuteAsync(string[] args)
@@ -52,13 +52,12 @@ namespace Csi3
 
                 loadContext.Unload();
 
-                return new AssemblyUnloadAwaiter(new WeakReference(loadContext));
+                return new AssemblyUnloadAwaiter(loadContext);
             })
             .ConfigureAwait(false);
 
         private bool _disposed;
         private Stream _peStream;
         private Stream _pdbStream;
-
     }
 }
