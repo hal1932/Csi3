@@ -33,16 +33,18 @@ namespace Csi3.Build.Resolvers
         {
             var name = assemblyName.Name;
 
+            // https://github.com/search?q=CoreMetadataAssemblyResolver&type=Code
             if (name.AssemblyNameEquals("mscorlib") ||
-                name.AssemblyNameEquals("netstandard") ||
                 name.AssemblyNameEquals("System.Private.CoreLib") ||
+                name.AssemblyNameEquals("System.Runtime") ||
+                name.AssemblyNameEquals("netstandard") ||
                 name.AssemblyNameEquals("System.Runtime.InteropServices"))
             {
                 if (_coreAssembly == default)
                 {
                     _coreAssembly = context.LoadFromAssemblyPath(typeof(object).Assembly.Location);
                 }
-                //Console.WriteLine($"  -> [CoreLib] {_coreAssembly.Location}");
+                Console.WriteLine($"  -> [CoreLib] {_coreAssembly.Location}");
                 return _coreAssembly;
             }
 
